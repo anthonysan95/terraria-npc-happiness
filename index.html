@@ -6,7 +6,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+          integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     <link rel="stylesheet" href="styles.css">
 
     <script src="https://kit.fontawesome.com/d45a3ddc72.js" crossorigin="anonymous"></script>
@@ -15,65 +16,113 @@
 </head>
 
 <body>
-    <div class="container-fluid p-3">
-        <div class="row">
-            <div class="col">
-                <h1>Terraria Happiness Calculator</h1>
-            </div>
+<div class="container-fluid p-3">
+    <div class="row">
+        <div class="col">
+            <h1>Terraria Happiness Calculator</h1>
         </div>
-        <div class="row">
-            <div class="col">
-                <p>Terraria v1.4.0.1 introduced a new mechanic to NPCs that changes their prices based on their biome and neighbors. Finding a good layout that improves prices is time-consuming, so I made this tool to help.</p>
-            </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <p>Terraria v1.4.0.1 introduced a new mechanic to NPCs that changes their prices based on their biome and
+                neighbors. Finding a good layout that improves prices is time-consuming, so I made this tool to
+                help.</p>
         </div>
-        <div class="row">
-            <div class="col-auto">
-                <div class="dropdown">
-                    <button class="btn btn-primary dropdown-toggle" type="button" id="biomeDropdownButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Add Biomes
-                    </button>
-                    <div class="dropdown-menu" id="biomeDropdownMenu" aria-labelledby="biomeDropdownButton">
-                        <button class="dropdown-item" type="button" onclick="addAll()">Add one of each</button>
-                        <div class="dropdown-divider"></div>
-                    </div>
+    </div>
+    <div class="row">
+        <div class="col-auto">
+            <div class="dropdown">
+                <button class="btn btn-primary dropdown-toggle" type="button" id="biomeDropdownButton"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Add Biomes
+                </button>
+                <div class="dropdown-menu" id="biomeDropdownMenu" aria-labelledby="biomeDropdownButton">
+                    <button class="dropdown-item" type="button" onclick="addAll()">Add one of each</button>
+                    <div class="dropdown-divider"></div>
                 </div>
             </div>
-            <div class="col-auto">
-                <div class="dropdown">
-                    <button class="btn btn-primary dropdown-toggle" type="button" id="npcDropdownButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Add NPCs
-                    </button>
-                    <div class="dropdown-menu" id="npcDropdownMenu" aria-labelledby="npcDropdownButton">
-                        <button class="dropdown-item" type="button" onclick="addAllNPCs()">Add one of each</button>
-                        <div class="dropdown-divider"></div>
-                    </div>
+        </div>
+        <div class="col-auto">
+            <div class="dropdown">
+                <button class="btn btn-primary dropdown-toggle" type="button" id="npcDropdownButton"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Add NPCs
+                </button>
+                <div class="dropdown-menu" id="npcDropdownMenu" aria-labelledby="npcDropdownButton">
+                    <button class="dropdown-item" type="button" onclick="addAllNPCs()">Add one of each</button>
+                    <div class="dropdown-divider"></div>
                 </div>
             </div>
-            <div class="col-auto">
-                <button class="btn btn-warning" type="button" onclick="clearBiomes()">Clear All</button>
+        </div>
+        <div class="col-auto">
+            <button class="btn btn-warning" type="button" onclick="clearBiomes()">Clear All</button>
+        </div>
+        <div class="col-auto ml-auto">
+            <div class="dropdown">
+                <button class="btn btn-primary dropdown-toggle" type="button" id="importDropdownButton"
+                        data-toggle="dropdown" aria-haspopup="true"
+                        aria-expanded="false">
+                    Import Data
+                </button>
+                <form class="dropdown-menu dropdown-menu-right p-4" style="width: 400px !important;"
+                      id="importDropdownMenu"
+                      aria-labelledby="importDropdownButton">
+                    <div class="form-group">
+                        <label for="biomes">Data</label>
+                        <textarea rows="5" class="form-control" id="biomes"></textarea>
+                    </div>
+
+                    <div class="mb-3 font-weight-bold" id="importState"></div>
+                    <button class="btn btn-primary" type="button" id="importButton">Import</button>
+                </form>
             </div>
         </div>
-        <div class="row" id="tool">
-        </div>
-        <div class="row">
-            <div class="col">
-                <p class="text-muted">Source code for this page can be found <a href="https://github.com/Vince7778/terraria-npc-happiness">here.</a>
-                    <br>Please report any issues or any suggestions <a href="https://github.com/Vince7778/terraria-npc-happiness/issues">here.</a></p>
+        <div class="col-auto">
+            <div class="dropdown">
+                <button class="btn btn-primary dropdown-toggle" type="button" id="exportDropdownButton"
+                        data-toggle="dropdown" aria-haspopup="true"
+                        aria-expanded="false">
+                    Export Data
+                </button>
+                <form class="dropdown-menu dropdown-menu-right p-4" style="width: 400px !important;"
+                      id="exportDropdownMenu"
+                      aria-labelledby="exportDropdownButton">
+                    <div class="form-group">
+                        <label for="data">Data</label>
+                        <textarea rows="5" class="form-control" id="data" readonly></textarea>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
+    <div class="row" id="tool">
+    </div>
+    <div class="row">
+        <div class="col">
+            <p class="text-muted">Source code for this page can be found <a
+                    href="https://github.com/Vince7778/terraria-npc-happiness">here.</a>
+                <br>Please report any issues or any suggestions <a
+                        href="https://github.com/Vince7778/terraria-npc-happiness/issues">here.</a></p>
+        </div>
+    </div>
+</div>
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
-    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
-    <!--<script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>-->
-    <!--<script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>-->
-    <script src="https://unpkg.com/react@16/umd/react.production.min.js" crossorigin></script>
-    <script src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js" crossorigin></script>
-    <script src="js.cookie.min.js"></script>
-    <script src="info.js" type="text/babel"></script>
-    <script src="main.js" type="text/babel"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+        integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+        crossorigin="anonymous"></script>
+<script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+<!--<script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>-->
+<!--<script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>-->
+<script src="https://unpkg.com/react@16/umd/react.production.min.js" crossorigin></script>
+<script src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js" crossorigin></script>
+<script src="info.js" type="text/babel"></script>
+<script src="main.js" type="text/babel"></script>
 </body>
 
 </html>

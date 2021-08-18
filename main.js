@@ -1,26 +1,25 @@
-
 class Preference extends React.Component {
     render() {
         const quality = this.props.quality;
         const scheme = qualityColors[quality];
 
         const type = this.props.type;
-        let divClass = "col-auto rounded-lg h-100 p-2 wrap text-center text-"+scheme.text+" bg-"+scheme.bg;
+        let divClass = "col-auto rounded-lg h-100 p-2 wrap text-center text-" + scheme.text + " bg-" + scheme.bg;
         if (this.props.index === 0) divClass += " ml-auto";
         else divClass += " ml-2";
 
         let text;
         if (type === "biome") {
-            text = "In a "+quality+"\nbiome";
+            text = "In a " + quality + "\nbiome";
         } else if (type === "neighbor") {
             const neighborName = npcProps[this.props.npc].name;
-            text = "Has a "+quality+"\nneighbor:\n"+neighborName;
+            text = "Has a " + quality + "\nneighbor:\n" + neighborName;
         } else if (type === "nearby") {
             const count = this.props.neighborCount;
             if (count < 2) {
                 text = "Few\nneighbors";
             } else if (count > 2) {
-                text = "Too many\nneighbors\nx" + (count-2);
+                text = "Too many\nneighbors\nx" + (count - 2);
             }
         }
 
@@ -36,27 +35,29 @@ class NPC extends React.Component {
     render() {
         const npcType = this.props.npcType;
         const ind = this.props.ind;
-        
+
         const hasMargin = ind >= 1;
         let className = "row align-items-center mx-0 p-2 blank border border-dark rounded-lg";
         if (hasMargin) className += " mt-1";
 
         const imgSrc = "images/" + npcType + ".png";
-        
+
         const npcName = npcProps[npcType].name;
 
         let upBtn = null;
         let downBtn = null;
         if (npcType !== "truffle") {
-            if (!this.props.isFirstBiome) upBtn = 
-                (<button type="button" className="btn btn-outline-secondary btn-sm" onClick={this.props.moveNPCUp}><i className="fas fa-chevron-up"></i></button>);
+            if (!this.props.isFirstBiome) upBtn =
+                (<button type="button" className="btn btn-outline-secondary btn-sm" onClick={this.props.moveNPCUp}><i
+                    className="fas fa-chevron-up"/></button>);
             if (!this.props.isLastBiome) downBtn =
-                (<button type="button" className="btn btn-outline-secondary btn-sm" onClick={this.props.moveNPCDown}><i className="fas fa-chevron-down"></i></button>);
+                (<button type="button" className="btn btn-outline-secondary btn-sm" onClick={this.props.moveNPCDown}><i
+                    className="fas fa-chevron-down"/></button>);
         }
 
         const prefs = this.props.prefs;
 
-        let closeButtonClassName = "col-auto justify-content-end right-align vert-center"
+        let closeButtonClassName = "col-auto justify-content-end right-align vert-center";
         if (prefs.length === 0) closeButtonClassName += " ml-auto";
 
         let priceMult = 1;
@@ -76,18 +77,18 @@ class NPC extends React.Component {
                 }
             }
         }
-        priceMult = Math.round(priceMult*20)/20;
-        
-        let priceText = "Price: "+(priceMult*100).toFixed(0)+"%";
+        priceMult = Math.round(priceMult * 20) / 20;
+
+        let priceText = "Price: " + (priceMult * 100).toFixed(0) + "%";
         if (priceMult > 1.5) priceText += " (capped at 150%)";
         else if (priceMult < 0.75) priceText += " (capped at 75%)";
 
         let priceColor;
         if (priceMult < 1) priceColor = "text-success";
-        else if (priceMult == 1) priceColor = "text-body";
+        else if (priceMult === 1) priceColor = "text-body";
         else priceColor = "text-danger";
 
-        const textClass = "vert-center "+priceColor;
+        const textClass = "vert-center " + priceColor;
 
         return (
             <div className={className}>
@@ -98,7 +99,7 @@ class NPC extends React.Component {
                     </div>
                 </div>
                 <div className="col-auto">
-                    <img src={imgSrc}></img>
+                    <img src={imgSrc} alt=""/>
                 </div>
                 <div className="col-auto">
                     <h5 className="vert-center">{npcName}</h5>
@@ -108,7 +109,8 @@ class NPC extends React.Component {
                 </div>
                 {prefs}
                 <div className={closeButtonClassName}>
-                    <button className="btn blank" onClick={this.props.removeNPC}><i className="fas fa-times"></i></button>
+                    <button className="btn blank" onClick={this.props.removeNPC}><i className="fas fa-times"/>
+                    </button>
                 </div>
             </div>
         );
@@ -162,7 +164,7 @@ class Biome extends React.Component {
             }
         }
 
-        const neighborCount = neighbors.length-1;
+        const neighborCount = neighbors.length - 1;
         if (npc === "princess") {
             if (neighborCount < 2) {
                 prefs.push({type: "nearby", quality: "horrendous"});
@@ -179,10 +181,10 @@ class Biome extends React.Component {
             return (sortInds[a.quality] - sortInds[b.quality]);
         });
 
-        const mappedPrefs = prefs.map((p, i) => {
+        return prefs.map((p, i) => {
             if (p.type === "biome") {
                 return (
-                    <Preference 
+                    <Preference
                         key={i}
                         type="biome"
                         quality={p.quality}
@@ -191,7 +193,7 @@ class Biome extends React.Component {
                 );
             } else if (p.type === "neighbor") {
                 return (
-                    <Preference 
+                    <Preference
                         key={i}
                         type="neighbor"
                         quality={p.quality}
@@ -201,7 +203,7 @@ class Biome extends React.Component {
                 );
             } else if (p.type === "nearby") {
                 return (
-                    <Preference 
+                    <Preference
                         key={i}
                         type="nearby"
                         quality={p.quality}
@@ -211,18 +213,16 @@ class Biome extends React.Component {
                 );
             }
         });
-
-        return mappedPrefs;
     }
 
     render() {
         const biomeType = this.props.biomeType;
         const biomeProp = biomeProps[biomeType];
 
-        let divClass = "row mx-0 p-3 rounded-lg " + biomeType + " border border-"+biomeType;
+        let divClass = "row mx-0 p-3 rounded-lg " + biomeType + " border border-" + biomeType;
         if (!this.props.isFirst) divClass += " mt-2";
 
-        const btnClass = "btn btn-"+biomeType;
+        const btnClass = "btn btn-" + biomeType;
 
         const biomeName = biomeProp.name;
 
@@ -230,11 +230,13 @@ class Biome extends React.Component {
             const prefs = this.findPrefs(npc);
 
             return (
-                <NPC 
-                    key={ind} 
-                    npcType={npc} 
-                    ind={ind} 
-                    removeNPC={() => {this.props.removeNPC(npc)}}
+                <NPC
+                    key={ind}
+                    npcType={npc}
+                    ind={ind}
+                    removeNPC={() => {
+                        this.props.removeNPC(npc);
+                    }}
                     isFirstBiome={this.props.isFirst}
                     isLastBiome={this.props.isLast}
                     moveNPCUp={() => this.props.moveNPCUp(npc)}
@@ -252,7 +254,8 @@ class Biome extends React.Component {
                             <h4>{biomeName}</h4>
                         </div>
                         <div className="col-auto ml-auto justify-content-end right-align vert-center">
-                            <button className={btnClass} onClick={this.props.delete}><i className="fas fa-times"></i></button>
+                            <button className={btnClass} onClick={this.props.delete}><i className="fas fa-times"/>
+                            </button>
                         </div>
                     </div>
                     {npcList}
@@ -266,8 +269,14 @@ class Biome extends React.Component {
 class Tool extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { biomes: [] }
-        setTimeout(this.getCookies.bind(this), 50); 
+        this.state = {
+            biomes: []
+        };
+        setTimeout(this.loadState.bind(this), 50);
+    }
+
+    componentDidUpdate() {
+        this.saveState();
     }
 
     addBiome(type) {
@@ -284,7 +293,6 @@ class Tool extends React.Component {
         this.setState({
             biomes: biomesConcat,
         });
-        this.setCookies(biomesConcat);
     }
 
     deleteBiome(ind) {
@@ -298,7 +306,6 @@ class Tool extends React.Component {
         this.setState({
             biomes: biomes,
         });
-        this.setCookies(biomes);
     }
 
     deleteAllBiomes() {
@@ -311,7 +318,6 @@ class Tool extends React.Component {
         this.setState({
             biomes: [],
         });
-        this.setCookies([]);
     }
 
     // Adds NPC to first biome
@@ -333,7 +339,7 @@ class Tool extends React.Component {
                     break;
                 }
             }
-            if (prefInd == -1) {
+            if (prefInd === -1) {
                 if (type === "truffle") { // can't add truffle to anything other than mushroom biome
                     alert("Can't add Truffle without a mushroom biome!");
                     return;
@@ -348,7 +354,6 @@ class Tool extends React.Component {
             this.setState({
                 biomes: biomes,
             });
-            this.setCookies(biomes);
         }
     }
 
@@ -356,7 +361,7 @@ class Tool extends React.Component {
         const biomes = this.state.biomes.slice();
         for (let i = 0; i < biomes.length; i++) {
             const npcs = biomes[i].npcs;
-            for (let j = npcs.length-1; j >= 0; j--) {
+            for (let j = npcs.length - 1; j >= 0; j--) {
                 if (npcs[j] === type) {
                     npcs.splice(j, 1);
                 }
@@ -368,42 +373,39 @@ class Tool extends React.Component {
         this.setState({
             biomes: biomes,
         });
-        this.setCookies(biomes);
     }
 
     moveNPCUp(type, biomeInd) {
         const biomes = this.state.biomes.slice();
         if (biomeInd >= 1) {
             const ind = biomes[biomeInd].npcs.indexOf(type);
-            if (ind != -1) {
+            if (ind !== -1) {
                 biomes[biomeInd].npcs.splice(ind, 1);
-                biomes[biomeInd-1].npcs.push(type);
+                biomes[biomeInd - 1].npcs.push(type);
             }
         }
         this.setState({
             biomes: biomes,
         });
-        this.setCookies(biomes);
     }
 
     moveNPCDown(type, biomeInd) {
         const biomes = this.state.biomes.slice();
         if (biomeInd < biomes.length - 1) {
             const ind = biomes[biomeInd].npcs.indexOf(type);
-            if (ind != -1) {
+            if (ind !== -1) {
                 biomes[biomeInd].npcs.splice(ind, 1);
-                biomes[biomeInd+1].npcs.unshift(type);
+                biomes[biomeInd + 1].npcs.unshift(type);
             }
         }
         this.setState({
             biomes: biomes,
         });
-        this.setCookies(biomes);
     }
 
-    getCookies() {
-        if (typeof Cookies.get("biomes") !== 'undefined') {
-            const biomes = JSON.parse(Cookies.get("biomes"));
+    loadState() {
+        if (localStorage.getItem("biomes") && localStorage.getItem("biomes") !== "undefined") {
+            const biomes = JSON.parse(localStorage.getItem("biomes"));
             biomes.forEach(b => {
                 b.npcs.forEach(n => {
                     toggleNPCDropdown(n, true);
@@ -415,12 +417,11 @@ class Tool extends React.Component {
         }
     }
 
-    setCookies() {
-        Cookies.set("biomes", JSON.stringify(this.state.biomes), {sameSite: "lax"});
-    }
+    saveState() {
+        const biomes = JSON.stringify(this.state.biomes);
 
-    setCookies(biomes) {
-        Cookies.set("biomes", JSON.stringify(biomes), {sameSite: "lax"});
+        localStorage.setItem("biomes", biomes);
+        $("#data").val(biomes);
     }
 
     render() {
@@ -428,12 +429,12 @@ class Tool extends React.Component {
         const biomeList = biomeState.map((biome, ind) => {
             return (
                 <Biome
-                    key={ind} 
-                    biomeType={biome.type} 
-                    isFirst={ind == 0} 
-                    isLast={ind == biomeState.length-1}
-                    delete={() => this.deleteBiome(ind)} 
-                    npcs={biome.npcs} 
+                    key={ind}
+                    biomeType={biome.type}
+                    isFirst={ind === 0}
+                    isLast={ind === biomeState.length - 1}
+                    delete={() => this.deleteBiome(ind)}
+                    npcs={biome.npcs}
                     removeNPC={type => this.removeNPC(type, ind)}
                     moveNPCUp={type => this.moveNPCUp(type, ind)}
                     moveNPCDown={type => this.moveNPCDown(type, ind)}
@@ -447,13 +448,13 @@ class Tool extends React.Component {
     }
 }
 
-const tool = ReactDOM.render(<Tool />, document.getElementById("tool"));
+const tool = ReactDOM.render(<Tool/>, document.getElementById("tool"));
 
 const biomeDropdown = document.getElementById("biomeDropdownMenu");
 biomeList.forEach(biomeName => {
     const biomeProp = biomeProps[biomeName];
 
-    const className = "dropdown-item btn-"+biomeName;
+    const className = "dropdown-item btn-" + biomeName;
 
     const elem = document.createElement("button");
     elem.innerHTML = biomeProp.name;
@@ -461,7 +462,7 @@ biomeList.forEach(biomeName => {
     elem.className = className;
     elem.onclick = () => {
         tool.addBiome(biomeName);
-    }
+    };
 
     biomeDropdown.appendChild(elem);
 });
@@ -476,7 +477,7 @@ npcList.forEach(npcName => {
     elem.className = "dropdown-item";
     elem.onclick = () => {
         tool.addNPC(npcName);
-    }
+    };
 
     npcDropdown.appendChild(elem);
 });
@@ -507,3 +508,37 @@ function toggleNPCDropdown(type, disabled) {
 function clearBiomes() {
     tool.deleteAllBiomes();
 }
+
+$("#importButton").click(function () {
+    const biomes = $("#biomes").val();
+
+    if (biomes) {
+        const $importState = $("#importState");
+
+        try {
+            tool.setState({
+                biomes: JSON.parse(biomes)
+            });
+
+            $importState.removeClass("text-danger");
+            $importState.addClass("text-success");
+            $importState.html("Data imported.");
+        } catch (e) {
+            $importState.removeClass("text-success");
+            $importState.addClass("text-danger");
+            $importState.html(e.message);
+        }
+    }
+});
+
+$("#data").focus(function () {
+    var $this = $(this);
+    $this.select();
+
+    // Work around Chrome's little problem
+    $this.mouseup(function () {
+        // Prevent further mouseup intervention
+        $this.unbind("mouseup");
+        return false;
+    });
+});
